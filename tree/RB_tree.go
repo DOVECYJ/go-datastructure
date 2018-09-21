@@ -629,6 +629,9 @@ func (n *rbnode) printInOrder() {
 }
 
 func (n *rbnode) inOrder(out *[]int) {
+	if n == nil {
+		return
+	}
 	if n.left != nil {
 		n.left.inOrder(out)
 	}

@@ -43,6 +43,9 @@ func (tree *bstnode) insert(node int) {
 }
 
 func (tree *bstnode) inOrder(out *[]int) {
+	if tree == nil {
+		return
+	}
 	if tree.left != nil {
 		tree.left.inOrder(out)
 	}
