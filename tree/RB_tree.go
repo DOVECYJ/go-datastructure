@@ -63,7 +63,7 @@ func (n *rbnode) insert(value int) *rbnode {
 	} else {
 		p.right = node
 	}
-	if p.color == BLACK {
+	if p.color == BLACK { //父节点是黑色直接插入
 		return n
 	}
 
@@ -76,12 +76,7 @@ func XOR(a, b bool) bool {
 	return a != b
 }
 
-/*
- * 单支节点，必为黑父红子，一步到位
- * 红叶节点，直接删除
- * 黑叶节点，慎重考虑
- * 两个子节点 → 变成上面三种情况
- */
+//删除节点
 func (n *rbnode) delete(value int) *rbnode {
 	p := n
 	for p != nil && p.value != value {
@@ -102,7 +97,12 @@ func (n *rbnode) delete(value int) *rbnode {
 	return root
 }
 
-//删除节点辅助函数
+/*
+ * 单支节点，必为黑父红子，一步到位
+ * 红叶节点，直接删除
+ * 黑叶节点，慎重考虑
+ * 两个子节点 → 变成上面三种情况
+ */
 func (n *rbnode) del_node(root **rbnode) {
 	if XOR(n.left == nil, n.right == nil) { //只有一个子节点
 		n.del_one_branch(root)
@@ -120,11 +120,12 @@ func (n *rbnode) del_node(root **rbnode) {
 	}
 }
 
-//颜色修正
+//插入节点修正函数
 func (n *rbnode) fixup(root **rbnode) {
 	n.processCase(root)
 }
 
+//判断插入的各种情况
 func (n *rbnode) getCase() int {
 	if n.parent.isBlack() {
 		return 0
@@ -145,6 +146,7 @@ func (n *rbnode) getCase() int {
 	}
 }
 
+//处理插入的各种情况
 func (n *rbnode) processCase(root **rbnode) {
 	switch n.getCase() {
 	case 1:
@@ -354,6 +356,7 @@ func (n *rbnode) del_red_leaf() {
 	}
 }
 
+//删除黑色叶子节点，分情况考虑
 func (n *rbnode) del_black_leaf(root **rbnode) {
 	switch n.delCase() {
 	case 1:
